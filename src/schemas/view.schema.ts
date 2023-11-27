@@ -1,0 +1,18 @@
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import * as mongoose from 'mongoose';
+import { User } from 'src/domain/auth/schemas/user.schema';
+
+export type StatisticViewDocument = mongoose.HydratedDocument<StatisticView>;
+
+@Schema({
+  timestamps: true,
+})
+export class StatisticView {
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  user_id: User;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  doctor_id: User;
+}
+
+export const StatisticViewSchema = SchemaFactory.createForClass(StatisticView);
