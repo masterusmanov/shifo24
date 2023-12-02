@@ -2,29 +2,20 @@ import axios from 'axios';
 
 const sendSmsTo = async (receiver, message_key: string, genNumber) => {
   const postData = {
-    messages: [
-      {
-        recipient: `${receiver}`,
-        'message-id': `${message_key}`,
-        sms: {
-          originator: '3700',
-          content: {
-            text: `SHIFO24: Sizning verifikatsiya kodingiz: ${genNumber} \n\n ${message_key}`,
-          },
-        },
-      },
-    ],
+    mobile_phone: receiver,
+    message: `SHIFO24: Sizning verifikatsiya kodingiz: ${genNumber} \n\n ${message_key}`,
+    from: '4546',
   };
 
   const axiosConfig = {
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
-      Authorization: process.env.SMS_BASIC_TOKEN,
+      Authorization: `Bearer ${process.env.SMS_TOKEN}`,
     },
   };
 
   axios
-    .post('https://send.smsxabar.uz/broker-api/send', postData, axiosConfig)
+    .post('https://notify.eskiz.uz/api/message/sms/send', postData, axiosConfig)
     .then((res) => {})
     .catch((error) => {
       new Error(error);
